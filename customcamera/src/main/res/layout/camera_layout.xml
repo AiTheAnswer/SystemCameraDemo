@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- 使用SurfaceView来进行拍照预览-->
+    <SurfaceView
+        android:id="@+id/camera_surface_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+    <!-- 聚焦View-->
+    <com.allen.customcamera.FocusView
+        android:id="@+id/camera_focus_view"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:visibility="gone" />
+    <!-- 转换前后摄像头-->
+    <ImageView
+        android:id="@+id/img_switch_camera"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_gravity="end"
+        android:padding="25dp"
+        android:scaleType="centerInside"
+        android:src="@mipmap/camera_switch" />
+    <!-- 点击拍照获取到图片的预览-->
+    <ImageView
+        android:id="@+id/camera_picture_preview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="fitCenter"
+        android:visibility="gone" />
+    <!-- 拍照、取消、重拍的布局-->
+    <com.allen.customcamera.CaptureLayout
+        android:id="@+id/camera_capture_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:layout_marginBottom="30dp" />
+
+</merge>

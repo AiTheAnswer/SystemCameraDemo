@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?><!-- 相机界面底部拍照、取消、重拍的布局-->
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <!-- 取消-->
+    <ImageView
+        android:id="@+id/capture_cancel"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_gravity="center_vertical"
+        android:layout_marginLeft="50dp"
+        android:src="@mipmap/ic_camera_close" />
+
+    <!-- 拍照、重拍、确认布局-->
+    <FrameLayout
+        android:id="@+id/camera_capture_retry_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center">
+
+        <!-- 重拍-->
+        <ImageView
+            android:id="@+id/camera_capture_retry"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:background="@drawable/camera_btn_retry_bg"
+            android:padding="25dp"
+            android:src="@mipmap/ic_camera_retry"
+            android:visibility="visible" />
+        <!-- 确认-->
+        <ImageView
+            android:id="@+id/camera_capture_confirm"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_gravity="end"
+            android:background="@drawable/camera_btn_retry_bg"
+            android:padding="25dp"
+            android:src="@mipmap/ic_camera_done"
+            android:visibility="visible" />
+        <!-- 拍照-->
+        <ImageView
+            android:id="@+id/camera_capture"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_gravity="center"
+            android:background="@drawable/camera_btn_retry_bg"
+            android:padding="10dp"
+            android:src="@drawable/camera_btn_capture_bg" />
+
+
+    </FrameLayout>
+
+</merge>

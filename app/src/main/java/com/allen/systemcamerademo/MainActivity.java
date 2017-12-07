@@ -32,7 +32,9 @@ public class MainActivity extends AppCompatActivity {
     Button customCamera;
     private static final int REQUEST_CODE_TAKE_PICTURE_NO_URI = 0;
     private static final int REQUEST_CODE_TAKE_PICTURE_URI = 1;
+    private static final int REQUEST_CODE_TAKE_PICTURE_CUSTOM_CAMERA = 2;
     private Uri photoUri;
+    private Bitmap bitmap;
 
 
     @Override
@@ -41,22 +43,29 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
         getSupportActionBar().hide();
-
     }
 
 
     @OnClick({R.id.img_photo, R.id.system_camera, R.id.custom_camera})
     public void onViewClicked(View view) {
         switch (view.getId()) {
-            case R.id.system_camera:
+            case R.id.img_photo://照片
+                break;
+            case R.id.system_camera://系统相机
                 showWaySelectDialog();
                 break;
-            case R.id.custom_camera:
+            case R.id.custom_camera://自定义相机
+                Intent intent = new Intent(MainActivity.this, CustomCameraActivity.class);
+                String path = getExternalFilesDir(Environment.DIRECTORY_PICTURES) + "/camera_" + System.currentTimeMillis() + ".jpg";
+                intent.putExtra("path", path);
+                startActivityForResult(intent, REQUEST_CODE_TAKE_PICTURE_CUSTOM_CAMERA);
                 break;
             default:
                 break;
+
         }
     }
+
 
     /**
      * 显示选择系统相机方式的对话框
@@ -77,8 +86,8 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(DialogInterface dialog, int which) {
                 Intent openCameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                 photoUri = Uri.fromFile(getSavePhotoFile());
-                openCameraIntent.putExtra(MediaStore.EXTRA_OUTPUT,photoUri);
-                startActivityForResult(openCameraIntent,REQUEST_CODE_TAKE_PICTURE_URI);
+                openCameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri);
+                startActivityForResult(openCameraIntent, REQUEST_CODE_TAKE_PICTURE_URI);
             }
         });
         AlertDialog dialog = builder.show();
@@ -87,21 +96,19 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-
-
     /**
      * 获取保存拍照后图片保存的File
+     *
      * @return
      */
     private File getSavePhotoFile() {
-        String photoPath = getExternalFilesDir(Environment.DIRECTORY_PICTURES)+ "/camera_"+System.currentTimeMillis()+".jpg";
+        String photoPath = getExternalFilesDir(Environment.DIRECTORY_PICTURES) + "/camera_" + System.currentTimeMillis() + ".jpg";
         File file = new File(photoPath);
-        if (!file.getParentFile().exists()){
+        if (!file.getParentFile().exists()) {
             file.getParentFile().mkdirs();
         }
         return file;
     }
-
 
 
     @Override
@@ -110,14 +117,15 @@ public class MainActivity extends AppCompatActivity {
         if (resultCode != RESULT_OK) {//判断结果是否成功
             return;
         }
-        Bitmap bitmap;
+
+        ContentResolver resolver = getContentResolver();
         switch (requestCode) {
             case REQUEST_CODE_TAKE_PICTURE_NO_URI://不指定Uri方式的系统相机回调
                 bitmap = data.getParcelableExtra("data");
                 imgPhoto.setImageBitmap(bitmap);
                 break;
             case REQUEST_CODE_TAKE_PICTURE_URI://指定Uri方式的系统相机回调
-                ContentResolver resolver = getContentResolver();
+
                 try {
                     bitmap = BitmapFactory.decodeStream(resolver.openInputStream(photoUri));
                     imgPhoto.setImageBitmap(bitmap);
@@ -125,11 +133,14 @@ public class MainActivity extends AppCompatActivity {
                     e.printStackTrace();
                 }
                 break;
+            case REQUEST_CODE_TAKE_PICTURE_CUSTOM_CAMERA:
+                String path = data.getDataString();
+                Bitmap bitmap = BitmapFactory.decodeFile(path);
+                imgPhoto.setImageBitmap(bitmap);
+                break;
             default:
                 break;
         }
     }
-
-
 }
 
