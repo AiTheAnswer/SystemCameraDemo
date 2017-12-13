@@ -125,11 +125,9 @@ public class CameraView extends FrameLayout implements SensorEventListener, View
     private CaptureLayout.OnCaptureClickListener captureClickListener = new CaptureLayout.OnCaptureClickListener() {
         @Override
         public void onCancel() {
-            if (mCameraListener != null) {
+            if (mCameraListener != null)
                 mCameraListener.onCameraClose();
-            }
         }
-
         @Override
         public void onCapture() {
             cameraManager.takePicture(new CameraManager.Callback<Bitmap>() {
@@ -148,9 +146,7 @@ public class CameraView extends FrameLayout implements SensorEventListener, View
                     }
                 }
             });
-
         }
-
         @Override
         public void onRetry() {
             mPicture = null;
@@ -160,7 +156,6 @@ public class CameraView extends FrameLayout implements SensorEventListener, View
             mPreViewPicture.setVisibility(GONE);
             mCaptureLayout.setIsExpand(false);
         }
-
         @Override
         public void onConfirm() {
             if (mPicture != null && mCameraListener != null) {
@@ -175,7 +170,6 @@ public class CameraView extends FrameLayout implements SensorEventListener, View
         public void surfaceCreated(SurfaceHolder holder) {//SurfaceView被创建
             isSurfaceCreated = true;
         }
-
         @Override
         public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {//SurfaceView 的格式或者尺寸改变的回调
             //设置相机预览的SurfaceHolder

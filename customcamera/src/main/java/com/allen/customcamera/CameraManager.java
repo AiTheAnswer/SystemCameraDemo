@@ -142,8 +142,7 @@ public class CameraManager {
      * 立即打开相机
      */
     private void openImmediate() {
-        //先关闭相机
-        closeImmediate();
+        closeImmediate(); //先关闭相机
         if (mSurfaceHolder == null) {//判断SurfaceView是否创建完成
             return;
         }
@@ -157,7 +156,6 @@ public class CameraManager {
             mCamera = Camera.open(mCameraId);
             Camera.Parameters parameters = mCamera.getParameters();
             CameraUtils.setPreViewParameters(mSurfaceSize, parameters);
-
             mCamera.setParameters(parameters);
             mCamera.setDisplayOrientation(getDisplayOrientation());
             mCamera.setPreviewDisplay(mSurfaceHolder);
@@ -231,14 +229,11 @@ public class CameraManager {
                 if (mState != CameraState.STATE_OPENED) {
                     return;
                 }
-
                 setCameraState(CameraState.STATE_SHOOTING);
-
                 mCamera.takePicture(null, null, new Camera.PictureCallback() {
                     @Override
                     public void onPictureTaken(byte[] data, Camera camera) {
                         closeImmediate();
-
                         final Bitmap result;
                         if (data != null && data.length > 0) {
                             Bitmap bitmap = BitmapFactory.decodeByteArray(data, 0, data.length);
